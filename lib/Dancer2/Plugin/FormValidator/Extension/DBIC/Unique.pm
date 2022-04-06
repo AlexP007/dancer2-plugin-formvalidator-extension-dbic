@@ -15,10 +15,10 @@ sub message {
 }
 
 sub validate {
-    my ($self, $field, $input, $resultset, $attribute) = @_;
+    my ($self, $field, $input, $source, $attribute) = @_;
 
     if (exists $input->{$field}) {
-        my $result = $self->extension->schema->resultset($resultset)->search(
+        my $result = $self->extension->schema->resultset($source)->search(
             {
                 $attribute => $input->{$field},
             }

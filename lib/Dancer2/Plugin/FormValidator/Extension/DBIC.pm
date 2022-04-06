@@ -4,6 +4,8 @@ use Moo;
 
 with 'Dancer2::Plugin::FormValidator::Role::Extension';
 
+our $VERSION = '0.80';
+
 has plugin_dbic => (
     is      => 'ro',
     lazy    => 1,
@@ -39,8 +41,7 @@ __END__
 
 =head1 NAME
 
-Dancer2::Plugin::FormValidator::Extension::Password - Dancer2 FormValidator extension for validating passwords.
-
+Dancer2::Plugin::FormValidator::Extension::DBIC - Dancer2 FormValidator extension for checking fields existence in table rows.
 
 =head1 VERSION
 
@@ -55,8 +56,7 @@ version 0.80
 
         sub profile {
             return {
-                email    => [qw(required email)],
-                password => [qw(required password_robust)],
+                username => [ qw(required unique:User,username) ],
             };
         };
     }
@@ -68,7 +68,7 @@ This is beta version, not stable.
 
 =head1 DESCRIPTION
 
-This extension provides validators for password verification for Dancer2::Plugin::FormValidator.
+This extension provides validators database data existence for Dancer2::Plugin::FormValidator.
 
 L<Dancer2::Plugin::FormValidator|https://metacpan.org/pod/Dancer2::Plugin::FormValidator>.
 
@@ -83,8 +83,9 @@ L<Dancer2::Plugin::FormValidator|https://metacpan.org/pod/Dancer2::Plugin::FormV
                     login => 'Validator',
                 },
                 extensions => {
-                    password => {
-                        provider => 'Dancer2::Plugin::FormValidator::Extension::Password',
+                    dbic => {
+                        provider => 'Dancer2::Plugin::FormValidator::Extension::DBIC',
+                        database => 'default' # DBIC database
                     }
                 }
             },
@@ -98,28 +99,23 @@ config.yml:
             session:
                 namespace: '_form_validator'
             extensions:
-                password:
-                    provider: 'Dancer2::Plugin::FormValidator::Extension::Password'
+                dbic:
+                    provider: 'Dancer2::Plugin::FormValidator::Extension::DBIC'
+                    database: 'default' # DBIC database
                     ...
     ...
 
 =head1 Validators
 
-=head3 password_simple
+=head3 unique
 
-Field must be minimum 8 characters long and contain at least one letter and one number.
+    unique:source,column
 
-=head3 password_robust
-
-Field must be minimum 8 characters long and contain at least one letter, a number, and a special character.
-
-=head3 password_hard
-
-must be minimum 8 characters long and contain at least one uppercase letter, one lowercase letter, one number and a special character.
+The field under validation must not exist within the given database source(table).
 
 =head1 SOURCE CODE REPOSITORY
 
-L<https://github.com/AlexP007/dancer2-plugin-formvalidator-extension-password|https://github.com/AlexP007/dancer2-plugin-formvalidator-extension-password>.
+L<https://github.com/AlexP007/dancer2-plugin-formvalidator-extension-dbic|https://github.com/AlexP007/dancer2-plugin-formvalidator-extension-dbic>.
 
 =head1 AUTHOR
 
