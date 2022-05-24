@@ -4,7 +4,7 @@ use Moo;
 
 with 'Dancer2::Plugin::FormValidator::Role::Extension';
 
-our $VERSION = '1.00';
+our $VERSION = '1.01';
 
 has plugin_dbic => (
     is      => 'ro',
@@ -46,7 +46,7 @@ Dancer2::Plugin::FormValidator::Extension::DBIC - Dancer2 FormValidator extensio
 
 =head1 VERSION
 
-version 1.00
+version 1.01
 
 =head1 SYNOPSIS
 
@@ -65,9 +65,9 @@ version 1.00
 
 =head1 DESCRIPTION
 
-This extension provides validators database data existence for Dancer2::Plugin::FormValidator.
+This extension provides validators for checking table rows using DBIC.
 
-L<Dancer2::Plugin::FormValidator|https://metacpan.org/pod/Dancer2::Plugin::FormValidator>.
+Main Plugin: L<Dancer2::Plugin::FormValidator|https://metacpan.org/pod/Dancer2::Plugin::FormValidator>.
 
 =head1 CONFIGURATION
 
@@ -104,7 +104,7 @@ config.yml:
 
 =head1 Dependencies
 
-This package requires L<Dancer2::Plugin::DBIC/https://metacpan.org/pod/Dancer2::Plugin::DBIC>.
+This package requires L<Dancer2::Plugin::DBIC|https://metacpan.org/pod/Dancer2::Plugin::DBIC>.
 
 =head1 Validators
 
