@@ -1,4 +1,4 @@
-package Dancer2::Plugin::FormValidator::Extension::DBIC::Unique;
+package Dancer2::Plugin::FormValidator::Extension::DBIC::Exist;
 
 use strict; use warnings;
 
@@ -10,9 +10,9 @@ with 'Dancer2::Plugin::FormValidator::Role::Validator';
 
 sub message {
     return {
-        en => '%s is already exists',
-        ru => '%s уже существует',
-        de => '%s ist bereits vorhanden',
+        en => '%s does not exists',
+        ru => '%s не существует',
+        de => '%s existiert nicht',
     };
 }
 
@@ -20,7 +20,7 @@ sub validate {
     my ($self, $field, $input, $source, $attribute) = @_;
 
     if ($self->_field_defined_and_non_empty($field, $input)) {
-        return not $self->extension->schema->resultset($source)->single(
+        return !!$self->extension->schema->resultset($source)->single(
             {
                 $attribute => $input->{$field},
             }

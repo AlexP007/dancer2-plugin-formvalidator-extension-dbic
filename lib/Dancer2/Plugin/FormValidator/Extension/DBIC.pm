@@ -4,7 +4,7 @@ use Moo;
 
 with 'Dancer2::Plugin::FormValidator::Role::Extension';
 
-our $VERSION = '0.82';
+our $VERSION = '1.00';
 
 has plugin_dbic => (
     is      => 'ro',
@@ -25,6 +25,7 @@ has schema => (
 
 sub validators {
     return {
+        exist  => 'Dancer2::Plugin::FormValidator::Extension::DBIC::Exist',
         unique => 'Dancer2::Plugin::FormValidator::Extension::DBIC::Unique',
     };
 }
@@ -45,7 +46,7 @@ Dancer2::Plugin::FormValidator::Extension::DBIC - Dancer2 FormValidator extensio
 
 =head1 VERSION
 
-version 0.82
+version 1.00
 
 =head1 SYNOPSIS
 
@@ -61,10 +62,6 @@ version 0.82
         };
     }
 
-
-=head1 DISCLAIMER
-
-This is beta version, not stable.
 
 =head1 DESCRIPTION
 
@@ -105,7 +102,17 @@ config.yml:
                     ...
     ...
 
+=head1 Dependencies
+
+This package requires L<Dancer2::Plugin::DBIC/https://metacpan.org/pod/Dancer2::Plugin::DBIC>.
+
 =head1 Validators
+
+=head3 exist
+
+    exist:source,column
+
+The field under validation must exist within the given database source(table).
 
 =head3 unique
 
